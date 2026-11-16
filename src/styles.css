@@ -325,3 +325,9 @@
 .slide-number-10 .margin-result { margin-top:22px; padding:18px; }
 .slide-number-10 .margin-result>strong { font-size:48px; }
 .slide-number-10 .margin-calculator>.slide-caption { font-size:16px; margin-top:12px; }
+
+/* Print disclosure must outrank the UA hidden rule. */
+@media print { .investor-suite .report-sheet .scenario-detail[hidden] { display:block!important; } }
+
+@media screen { .scenario-detail[data-collapsed="true"] { display:none; } }
+@media print { .scenario-detail[data-collapsed="true"] { display:block!important; } }
