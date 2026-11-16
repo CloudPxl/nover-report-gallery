@@ -5,7 +5,7 @@ import capturedCSS from "../styles/pages/solutions.regulatory-mapping.css?raw";
 export const Route = createFileRoute("/solutions_/regulatory-mapping")({
   head: () => ({ meta: [{"title": "Novera Regulatory Mapping — EU AI Act and GDPR"}, {"name": "description", "content": "Explore the AI Act and GDPR references associated with Novera’s versioned agent test scenarios."}, {"property": "og:title", "content": "Novera Regulatory Mapping — EU AI Act and GDPR"}, {"property": "og:description", "content": "Explore the AI Act and GDPR references associated with Novera’s versioned agent test scenarios."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary_large_image"}] }),
   staticData: { importedDocument: { html: { "className": "T19VSG_variable VxV-Ta_variable \x68-full \x61ntialiased", "lang": "en" }, body: { "className": "\x6din-h-full \x66lex \x66lex-col \x62g-surface \x74ext-ink" } } },
-  validateSearch: (search: Record<string, unknown>) => ({ framework: typeof search.framework === "string" ? search.framework : "", article: typeof search.article === "string" ? search.article : "", layer: typeof search.layer === "string" ? search.layer : "" }),
+  validateSearch: (search: Record<string, unknown>) => ({ framework: typeof search['framework'] === "string" ? search['framework'] : "", article: typeof search['article'] === "string" ? search['article'] : "", layer: typeof search['layer'] === "string" ? search['layer'] : "" }),
   component: Index,
 });
 
