@@ -1,8 +1,9 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import capturedCSS from "../styles/pages/solutions.css?raw";
 
 export const Route = createFileRoute("/solutions")({
-  head: () => ({ meta: [{ title: "Solutions: AI Act evidence, black-box testing, agencies | Novera — EU AI Act \u0026 Agent Evaluation" }] }),
+  head: () => ({ meta: [{"title": "Novera Solutions — Agent testing and regulatory evidence"}, {"name": "description", "content": "Explore Novera testing evidence for agencies, black-box agent evaluation, and EU AI Act references."}, {"property": "og:title", "content": "Novera Solutions — Agent testing and regulatory evidence"}, {"property": "og:description", "content": "Explore Novera testing evidence for agencies, black-box agent evaluation, and EU AI Act references."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary_large_image"}] }),
   staticData: { importedDocument: { html: { "className": "T19VSG_variable VxV-Ta_variable \x68-full \x61ntialiased", "lang": "en" }, body: { "className": "\x6din-h-full \x66lex \x66lex-col \x62g-surface \x74ext-ink" } } },
   component: Index,
 });
@@ -43,6 +44,7 @@ function Index() {
 }
 
 function ImportedHeader() {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <header className={"sticky top-0 z-40 \x62order-b \x62order-line/\x380 \x62g-surface/\x385 \x62ackdrop-blur"}>
       <div className={"\x77rap-wide flex h-16 items-center gap-6"}>
@@ -66,8 +68,8 @@ function ImportedHeader() {
           <a className="rounded-control px-3 py-2 text-sm font-medium text-ink-soft transition-colors duration-150 hover:bg-sunken hover:text-ink" href="/sign-in">Sign in</a>
           <a className={"inline-flex items-center justify-center gap-2 rounded-control font-medium transition-[background-color,border-color,color,box-shadow,transform] duration-150 ease-out \x61ctive:\x73cale-[\x30.\x398] \x64isabled:\x63ursor-not-allowed \x64isabled:\x61ctive:\x73cale-100 bg-ink text-on-ink \x73hadow-button hover:bg-ink-hover active:bg-ink-hover disabled:bg-ink-ghost \x64isabled:\x73hadow-none px-3 py-1.5 text-sm"} href="/sign-in">Start free</a>
         </nav>
-        <details className={"group relative ml-auto \x6dd:\x68idden"}>
-          <summary className={"novera-press flex cursor-pointer list-none items-center gap-2 rounded-control \x62order \x62order-line-strong px-3 py-2 text-sm font-medium text-ink"}>
+        <details open={menuOpen} onToggle={event => setMenuOpen(event.currentTarget.open)} onKeyDown={event => { if (event.key === "Escape") { setMenuOpen(false); event.currentTarget.querySelector("summary")?.focus(); } }} className={"group relative ml-auto \x6dd:\x68idden"}>
+          <summary aria-expanded={menuOpen} className={"novera-press flex cursor-pointer list-none items-center gap-2 rounded-control \x62order \x62order-line-strong px-3 py-2 text-sm font-medium text-ink"}>
             <span>Menu</span>
             <span className="relative block h-2.5 w-3.5" aria-hidden="true">
               <span className={"absolute \x69nset-x-0 top-0 h-px bg-ink transition-transform duration-200 \x67roup-open:\x74ranslate-y-[\x35px] \x67roup-open:\x72otate-45"} />
