@@ -1,5 +1,5 @@
 import {useEffect,useState} from 'react';
-import {motion} from 'framer-motion';
+import {motion,useReducedMotion} from 'framer-motion';
 import {ArrowRight,ShieldCheck,Fingerprint,FileCheck2,GitBranch,Check,Activity,LockKeyhole,TriangleAlert,ArrowUpRight,Network,Building2,Code2,Scale,CheckCircle2,Clock3,Globe2} from 'lucide-react';
 import {ResponsiveContainer,BarChart,Bar,XAxis,YAxis,Tooltip} from 'recharts';
 import {Button} from '@/components/ui/button';
@@ -40,4 +40,4 @@ export function SlideBody({index,onMode}:{index:number;onMode:(mode:'report'|'vi
  }
  return <div className={`standard-slide slide-number-${index+1}`}><div className="slide-kicker"><span className="tiny-rule"/>{current.kicker}</div><h2 className="slide-title">{current.title}</h2><p className="slide-subtitle">{current.subtitle}</p><div className="slide-body-content">{body}</div></div>
 }
-export function SlideFrame({index,onMode}:{index:number;onMode:(mode:'report'|'video')=>void}){return <motion.div className="slide-inner" initial={{opacity:0}} animate={{opacity:1}} transition={{duration:.25}}><div className="slide-topline"><span><NoveraMark/>NOVERA</span><span>INVESTOR, GOVERNANCE & ENTERPRISE BRIEF</span><span>2026</span></div><SlideBody index={index} onMode={onMode}/><div className="slide-bottomline"><span>OBSERVED BEHAVIORAL EVIDENCE ≠ LEGAL INTERPRETATION</span><span>nover.space</span><span>{String(index+1).padStart(2,'0')} / 14</span></div></motion.div>}
+export function SlideFrame({index,onMode}:{index:number;onMode:(mode:'report'|'video')=>void}){const reduced=useReducedMotion();return <motion.div className="slide-inner" initial={reduced?false:{opacity:0,y:12}} animate={{opacity:1,y:0}} transition={{duration:.38,ease:[.16,1,.3,1]}}><div className="slide-topline"><span><NoveraMark/>NOVERA</span><span>INVESTOR, GOVERNANCE & ENTERPRISE BRIEF</span><span>2026</span></div><SlideBody index={index} onMode={onMode}/><div className="slide-bottomline"><span>OBSERVED BEHAVIORAL EVIDENCE ≠ LEGAL INTERPRETATION</span><span>nover.space</span><span>{String(index+1).padStart(2,'0')} / 14</span></div></motion.div>}

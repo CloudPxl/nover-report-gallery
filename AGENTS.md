@@ -38,3 +38,4 @@ use the editor.
 - Render all deck slides through one 1920×1080 SlideLayout with center-origin scaling so presentation, overview, and fullscreen share geometry.
 - Keep mode and slide in validated URL search for reloadable and shareable presentation state.
 - Compute demonstration hashes in browser effects using Web Crypto and label sample evidence explicitly; never present illustrative digests as production seals.
+- Scope suite surface and motion tokens to the suite stylesheet rules; preserve imported secondary pages and fixed slide geometry during visual refreshes.
