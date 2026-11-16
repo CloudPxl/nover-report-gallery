@@ -331,3 +331,5 @@
 
 @media screen { .scenario-detail[data-collapsed="true"] { display:none; } }
 @media print { .scenario-detail[data-collapsed="true"] { display:block!important; } }
+
+.proof-grade{font-size:48px}.video-mode .proof-grade{font-size:26px}
