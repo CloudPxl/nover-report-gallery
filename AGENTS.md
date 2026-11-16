@@ -28,3 +28,7 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Imported website
+- Keep imported page markup and interactions in each TanStack route, with source styles separate, to preserve captured structure and fidelity.
+- Use importedDocument staticData for source html/body attributes so every imported page retains its original document layout.

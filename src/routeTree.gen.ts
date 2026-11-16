@@ -10,33 +10,81 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DocsRouteImport } from './routes/docs'
+import { Route as GuideRouteImport } from './routes/guide'
+import { Route as SolutionsRouteImport } from './routes/solutions'
+import { Route as SolutionsRegulatoryMappingRouteImport } from './routes/solutions_.regulatory-mapping'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GuideRoute = GuideRouteImport.update({
+  id: '/guide',
+  path: '/guide',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsRoute = SolutionsRouteImport.update({
+  id: '/solutions',
+  path: '/solutions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SolutionsRegulatoryMappingRoute =
+  SolutionsRegulatoryMappingRouteImport.update({
+    id: '/solutions_/regulatory-mapping',
+    path: '/solutions/regulatory-mapping',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/docs': typeof DocsRoute
+  '/guide': typeof GuideRoute
+  '/solutions': typeof SolutionsRoute
+  '/solutions/regulatory-mapping': typeof SolutionsRegulatoryMappingRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/docs': typeof DocsRoute
+  '/guide': typeof GuideRoute
+  '/solutions': typeof SolutionsRoute
+  '/solutions/regulatory-mapping': typeof SolutionsRegulatoryMappingRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/docs': typeof DocsRoute
+  '/guide': typeof GuideRoute
+  '/solutions': typeof SolutionsRoute
+  '/solutions_/regulatory-mapping': typeof SolutionsRegulatoryMappingRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    '/' | '/docs' | '/guide' | '/solutions' | '/solutions/regulatory-mapping'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/docs' | '/guide' | '/solutions' | '/solutions/regulatory-mapping'
+  id:
+    | '__root__'
+    | '/'
+    | '/docs'
+    | '/guide'
+    | '/solutions'
+    | '/solutions_/regulatory-mapping'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DocsRoute: typeof DocsRoute
+  GuideRoute: typeof GuideRoute
+  SolutionsRoute: typeof SolutionsRoute
+  SolutionsRegulatoryMappingRoute: typeof SolutionsRegulatoryMappingRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +96,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/guide': {
+      id: '/guide'
+      path: '/guide'
+      fullPath: '/guide'
+      preLoaderRoute: typeof GuideRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions': {
+      id: '/solutions'
+      path: '/solutions'
+      fullPath: '/solutions'
+      preLoaderRoute: typeof SolutionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/solutions_/regulatory-mapping': {
+      id: '/solutions_/regulatory-mapping'
+      path: '/solutions/regulatory-mapping'
+      fullPath: '/solutions/regulatory-mapping'
+      preLoaderRoute: typeof SolutionsRegulatoryMappingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DocsRoute: DocsRoute,
+  GuideRoute: GuideRoute,
+  SolutionsRoute: SolutionsRoute,
+  SolutionsRegulatoryMappingRoute: SolutionsRegulatoryMappingRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
