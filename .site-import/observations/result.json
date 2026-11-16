@@ -1,0 +1,18 @@
+{
+  "status": "partial",
+  "pages": [
+    "/",
+    "/docs",
+    "/guide",
+    "/solutions",
+    "/solutions/regulatory-mapping"
+  ],
+  "verified": "Five pages reviewed on desktop and phone; original assets captured; existing route test passed; latest build OK.",
+  "remaining": [
+    "Final report finding and baseline navigation checks failed on desktop; phone retest incomplete.",
+    "Regulatory framework filter failed visible GDPR reference check; article and layer filters not fully verified.",
+    "Walkthrough final retest inconsistent; desktop and phone next/back checks incomplete.",
+    "Source reveal, evidence-chain and example motion not fully reproduced.",
+    "Sign-in and other linked pages outside the five-page batch were not imported."
+  ]
+}
