@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, Children, isValidElement, type ReactNode } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import capturedCSS from "../styles/pages/solutions.regulatory-mapping.css?raw";
 
 export const Route = createFileRoute("/solutions_/regulatory-mapping")({
   head: () => ({ meta: [{"title": "Novera Regulatory Mapping — EU AI Act and GDPR"}, {"name": "description", "content": "Explore the AI Act and GDPR references associated with Novera’s versioned agent test scenarios."}, {"property": "og:title", "content": "Novera Regulatory Mapping — EU AI Act and GDPR"}, {"property": "og:description", "content": "Explore the AI Act and GDPR references associated with Novera’s versioned agent test scenarios."}, {"property": "og:type", "content": "website"}, {"name": "twitter:card", "content": "summary_large_image"}] }),
   staticData: { importedDocument: { html: { "className": "T19VSG_variable VxV-Ta_variable \x68-full \x61ntialiased", "lang": "en" }, body: { "className": "\x6din-h-full \x66lex \x66lex-col \x62g-surface \x74ext-ink" } } },
+  validateSearch: (search: Record<string, unknown>) => ({ framework: typeof search.framework === "string" ? search.framework : "", article: typeof search.article === "string" ? search.article : "", layer: typeof search.layer === "string" ? search.layer : "" }),
   component: Index,
 });
 
@@ -190,6 +191,10 @@ function ImportedSectionWhichScenariosBearOn() {
 }
 
 function ImportedSectionTheMatrix() {
+  const { framework, article, layer } = Route.useSearch();
+  const textOf = (node: ReactNode): string => Children.toArray(node).map(child => isValidElement<{ children?: ReactNode }>(child) ? textOf(child.props.children) : typeof child === 'string' || typeof child === 'number' ? String(child) : '').join(' ');
+  const visibleReference = (id: string) => (!framework || id.startsWith(framework + '-art-')) && (!article || id.endsWith('-art-' + article));
+  const matchesLayer = (node: ReactNode) => !layer || textOf(node).toLowerCase().includes(layer.replace('-', ' '));
   return (
     <section className={"\x62order-b \x62order-line"} aria-labelledby="matrix">
       <div className={"\x77rap-wide py-16 sm:py-20"}>
@@ -328,10 +333,10 @@ function ImportedSectionTheMatrix() {
           <div className={"mt-8 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 \x62order-b \x62order-line pb-4"}>
             <p className="text-sm text-ink-soft"><span className="font-semibold text-ink tnum">18</span> of <span className="tnum">18</span> references · <span className="font-semibold text-ink tnum">49</span> of <span className="tnum">49</span> scenarios</p>
           </div>
-          <section className="mt-8" aria-labelledby="group-ai-act">
+          <section hidden={framework === "gdpr"} className="mt-8" aria-labelledby="group-ai-act">
             <h3 className="flex flex-wrap items-baseline gap-x-3 text-lg font-semibold" id="group-ai-act">EU AI Act<span className="font-mono text-xs font-normal text-ink-faint tnum">4 references · 36 scenarios</span></h3>
             <ul className={"mt-4 gap-4 \x6cg:\x63olumns-2"}>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="ai-act-art-13">
+              {visibleReference("ai-act-art-13") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="ai-act-art-13">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>EU AI Act{" "}</span>Art. 13</h4>
@@ -340,7 +345,7 @@ function ImportedSectionTheMatrix() {
                   <p className="font-mono text-xs text-ink-faint tnum">9 scenarios</p>
                 </div>
                 <p className={"\x62order-b \x62order-line px-5 py-3 text-xs leading-relaxed text-ink-soft"}>Article 13 (transparency and information to deployers) is a requirement for high-risk AI systems. Most customer-support agents are not high-risk, so Novera uses it as an engineering benchmark for clear, grounded answers, not as a duty you necessarily have.</p>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T01</span>
                     <div className="min-w-0">
@@ -351,7 +356,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T02</span>
                     <div className="min-w-0">
@@ -362,7 +367,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T03</span>
                     <div className="min-w-0">
@@ -373,7 +378,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T04</span>
                     <div className="min-w-0">
@@ -384,7 +389,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T14</span>
                     <div className="min-w-0">
@@ -395,7 +400,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T18</span>
                     <div className="min-w-0">
@@ -406,7 +411,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T27</span>
                     <div className="min-w-0">
@@ -418,7 +423,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T30</span>
                     <div className="min-w-0">
@@ -429,7 +434,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T40</span>
                     <div className="min-w-0">
@@ -442,9 +447,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="ai-act-art-14">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("ai-act-art-14") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="ai-act-art-14">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>EU AI Act{" "}</span>Art. 14</h4>
@@ -453,7 +458,7 @@ function ImportedSectionTheMatrix() {
                   <p className="font-mono text-xs text-ink-faint tnum">11 scenarios</p>
                 </div>
                 <p className={"\x62order-b \x62order-line px-5 py-3 text-xs leading-relaxed text-ink-soft"}>Article 14 (human oversight) is a requirement for high-risk AI systems. Most customer-support agents are not high-risk, so Novera uses it as an engineering benchmark for escalation to a person, not as a duty you necessarily have.</p>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T07</span>
                     <div className="min-w-0">
@@ -464,7 +469,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T10</span>
                     <div className="min-w-0">
@@ -475,7 +480,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T12</span>
                     <div className="min-w-0">
@@ -486,7 +491,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T13</span>
                     <div className="min-w-0">
@@ -497,7 +502,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T22</span>
                     <div className="min-w-0">
@@ -510,7 +515,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Read-back</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T24</span>
                     <div className="min-w-0">
@@ -521,7 +526,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T31</span>
                     <div className="min-w-0">
@@ -532,7 +537,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T32</span>
                     <div className="min-w-0">
@@ -545,7 +550,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T35</span>
                     <div className="min-w-0">
@@ -558,7 +563,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Read-back</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T43</span>
                     <div className="min-w-0">
@@ -570,7 +575,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T44</span>
                     <div className="min-w-0">
@@ -583,9 +588,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="ai-act-art-15">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("ai-act-art-15") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="ai-act-art-15">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>EU AI Act{" "}</span>Art. 15</h4>
@@ -594,7 +599,7 @@ function ImportedSectionTheMatrix() {
                   <p className="font-mono text-xs text-ink-faint tnum">19 scenarios</p>
                 </div>
                 <p className={"\x62order-b \x62order-line px-5 py-3 text-xs leading-relaxed text-ink-soft"}>Article 15 (accuracy, robustness and cybersecurity) is a requirement for high-risk AI systems. Most customer-support agents are not high-risk, so Novera uses it as an engineering benchmark for robustness, not as a duty you necessarily have.</p>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T05</span>
                     <div className="min-w-0">
@@ -605,7 +610,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T11</span>
                     <div className="min-w-0">
@@ -616,7 +621,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T12</span>
                     <div className="min-w-0">
@@ -627,7 +632,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T16</span>
                     <div className="min-w-0">
@@ -638,7 +643,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T22</span>
                     <div className="min-w-0">
@@ -651,7 +656,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Read-back</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T23</span>
                     <div className="min-w-0">
@@ -662,7 +667,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T25</span>
                     <div className="min-w-0">
@@ -674,7 +679,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T26</span>
                     <div className="min-w-0">
@@ -687,7 +692,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T28</span>
                     <div className="min-w-0">
@@ -699,7 +704,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T29</span>
                     <div className="min-w-0">
@@ -711,7 +716,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T34</span>
                     <div className="min-w-0">
@@ -723,7 +728,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T35</span>
                     <div className="min-w-0">
@@ -736,7 +741,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Read-back</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T37</span>
                     <div className="min-w-0">
@@ -749,7 +754,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T38</span>
                     <div className="min-w-0">
@@ -762,7 +767,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T39</span>
                     <div className="min-w-0">
@@ -775,7 +780,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T41</span>
                     <div className="min-w-0">
@@ -788,7 +793,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T42</span>
                     <div className="min-w-0">
@@ -801,7 +806,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T44</span>
                     <div className="min-w-0">
@@ -813,7 +818,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T49</span>
                     <div className="min-w-0">
@@ -827,9 +832,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="ai-act-art-50-1">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("ai-act-art-50-1") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="ai-act-art-50-1">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>EU AI Act{" "}</span>Art. 50(1)</h4>
@@ -838,7 +843,7 @@ function ImportedSectionTheMatrix() {
                   <p className="font-mono text-xs text-ink-faint tnum">1 scenario</p>
                 </div>
                 <p className={"\x62order-b \x62order-line px-5 py-3 text-xs leading-relaxed text-ink-soft"}>Article 50 sets transparency obligations for AI systems that interact directly with people, for example telling a person that they are dealing with an AI system. Novera tests whether the agent discloses that.</p>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T17</span>
                     <div className="min-w-0">
@@ -850,14 +855,14 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
+                ]).filter(matchesLayer)}</ul>
+              </li>}
             </ul>
           </section>
-          <section className="mt-8" aria-labelledby="group-gdpr">
+          <section hidden={framework === "ai-act"} className="mt-8" aria-labelledby="group-gdpr">
             <h3 className="flex flex-wrap items-baseline gap-x-3 text-lg font-semibold" id="group-gdpr">GDPR<span className="font-mono text-xs font-normal text-ink-faint tnum">14 references · 22 scenarios</span></h3>
             <ul className={"mt-4 gap-4 \x6cg:\x63olumns-2"}>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-5-1-c">
+              {visibleReference("gdpr-art-5-1-c") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-5-1-c">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 5(1)(c)</h4>
@@ -865,7 +870,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">1 scenario</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T46</span>
                     <div className="min-w-0">
@@ -878,9 +883,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-5-1-f">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-5-1-f") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-5-1-f">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 5(1)(f)</h4>
@@ -888,7 +893,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">1 scenario</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T42</span>
                     <div className="min-w-0">
@@ -902,9 +907,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-12-6">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-12-6") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-12-6">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 12(6)</h4>
@@ -912,7 +917,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">4 scenarios</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T06</span>
                     <div className="min-w-0">
@@ -923,7 +928,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T15</span>
                     <div className="min-w-0">
@@ -934,7 +939,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T33</span>
                     <div className="min-w-0">
@@ -947,7 +952,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T45</span>
                     <div className="min-w-0">
@@ -960,9 +965,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-15">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-15") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-15">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 15</h4>
@@ -970,7 +975,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">3 scenarios</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T08</span>
                     <div className="min-w-0">
@@ -981,7 +986,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T19</span>
                     <div className="min-w-0">
@@ -992,7 +997,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T36</span>
                     <div className="min-w-0">
@@ -1006,9 +1011,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-16">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-16") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-16">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 16</h4>
@@ -1016,7 +1021,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">2 scenarios</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T20</span>
                     <div className="min-w-0">
@@ -1027,7 +1032,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T21</span>
                     <div className="min-w-0">
@@ -1041,9 +1046,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-17">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-17") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-17">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 17</h4>
@@ -1051,7 +1056,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">1 scenario</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T09</span>
                     <div className="min-w-0">
@@ -1063,9 +1068,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-18">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-18") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-18">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 18</h4>
@@ -1073,7 +1078,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">1 scenario</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T47</span>
                     <div className="min-w-0">
@@ -1085,9 +1090,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-19">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-19") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-19">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 19</h4>
@@ -1095,7 +1100,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">1 scenario</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T48</span>
                     <div className="min-w-0">
@@ -1107,9 +1112,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-20">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-20") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-20">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 20</h4>
@@ -1117,7 +1122,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">2 scenarios</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T08</span>
                     <div className="min-w-0">
@@ -1128,7 +1133,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T36</span>
                     <div className="min-w-0">
@@ -1142,9 +1147,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-21">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-21") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-21">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 21</h4>
@@ -1152,7 +1157,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">2 scenarios</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T20</span>
                     <div className="min-w-0">
@@ -1163,7 +1168,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T21</span>
                     <div className="min-w-0">
@@ -1177,9 +1182,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-22">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-22") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-22">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 22</h4>
@@ -1187,7 +1192,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">1 scenario</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T18</span>
                     <div className="min-w-0">
@@ -1199,9 +1204,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-25">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-25") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-25">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 25</h4>
@@ -1209,7 +1214,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">1 scenario</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T46</span>
                     <div className="min-w-0">
@@ -1222,9 +1227,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-32">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-32") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-32">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 32</h4>
@@ -1232,7 +1237,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">10 scenarios</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T06</span>
                     <div className="min-w-0">
@@ -1243,7 +1248,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T07</span>
                     <div className="min-w-0">
@@ -1254,7 +1259,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T10</span>
                     <div className="min-w-0">
@@ -1265,7 +1270,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T15</span>
                     <div className="min-w-0">
@@ -1276,7 +1281,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T33</span>
                     <div className="min-w-0">
@@ -1289,7 +1294,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T42</span>
                     <div className="min-w-0">
@@ -1302,7 +1307,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T43</span>
                     <div className="min-w-0">
@@ -1314,7 +1319,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T44</span>
                     <div className="min-w-0">
@@ -1326,7 +1331,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T45</span>
                     <div className="min-w-0">
@@ -1338,7 +1343,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Rules</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T46</span>
                     <div className="min-w-0">
@@ -1351,9 +1356,9 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
-              <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-33">
+                ]).filter(matchesLayer)}</ul>
+              </li>}
+              {visibleReference("gdpr-art-33") && <li className={"mb-4 break-inside-avoid \x73croll-mt-24 rounded-panel \x62order \x62order-line bg-surface \x73hadow-card"} id="gdpr-art-33">
                 <div className={"flex flex-wrap items-start justify-between gap-x-4 gap-y-1 \x62order-b \x62order-line p-5"}>
                   <div className="min-w-0">
                     <h4 className="text-lg font-semibold"><span className={"\x73r-only"}>GDPR{" "}</span>Art. 33</h4>
@@ -1361,7 +1366,7 @@ function ImportedSectionTheMatrix() {
                   </div>
                   <p className="font-mono text-xs text-ink-faint tnum">3 scenarios</p>
                 </div>
-                <ul className={"\x64ivide-y \x64ivide-line"}>
+                <ul className={"\x64ivide-y \x64ivide-line"}>{Children.toArray([
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T11</span>
                     <div className="min-w-0">
@@ -1372,7 +1377,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T16</span>
                     <div className="min-w-0">
@@ -1383,7 +1388,7 @@ function ImportedSectionTheMatrix() {
                       <span className={"\x73r-only"}>Checked by:</span>
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
-                  </li>
+                  </li>,
                   <li className={"grid grid-cols-[2.75rem_minmax(0,1fr)] gap-x-3 gap-y-2 px-5 py-3 sm:grid-cols-[2.75rem_minmax(0,1fr)_auto] \x73m:\x69tems-baseline"}>
                     <span className="font-mono text-xs font-semibold text-ink tnum">T34</span>
                     <div className="min-w-0">
@@ -1396,8 +1401,8 @@ function ImportedSectionTheMatrix() {
                       <span className={"rounded-control \x62order px-1.5 py-0.5 font-mono text-[11px] \x62order-line text-ink-faint"}>Graders</span>
                     </div>
                   </li>
-                </ul>
-              </li>
+                ]).filter(matchesLayer)}</ul>
+              </li>}
             </ul>
           </section>
           <p className="mt-6 max-w-4xl text-sm leading-relaxed text-ink-faint">A scenario can carry several references, so it appears under each. The matrix lists only the references eu-support v7 carries: an article that is not here has no scenario in this suite, and the matrix says nothing about it.</p>
