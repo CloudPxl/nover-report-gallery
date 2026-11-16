@@ -9,6 +9,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        suitePrimary: "suite-button-primary",
+        suiteSelected: "suite-button-selected",
+        suiteOutline: "suite-button-outline",
+        suiteGhost: "suite-button-ghost",
         default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
         destructive: "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
         outline:

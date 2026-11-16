@@ -32,3 +32,9 @@ use the editor.
 ## Imported website
 - Keep imported page markup and interactions in each TanStack route, with source styles separate, to preserve captured structure and fidelity.
 - Use importedDocument staticData for source html/body attributes so every imported page retains its original document layout.
+
+## Investor suite
+- Keep new suite features in src/features/suite and the index route as its URL coordinator; imported secondary pages remain untouched.
+- Render all deck slides through one 1920×1080 SlideLayout with center-origin scaling so presentation, overview, and fullscreen share geometry.
+- Keep mode and slide in validated URL search for reloadable and shareable presentation state.
+- Compute demonstration hashes in browser effects using Web Crypto and label sample evidence explicitly; never present illustrative digests as production seals.
