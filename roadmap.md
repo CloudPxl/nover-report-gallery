@@ -5,3 +5,5 @@
 - [x] Verify calculations, hashing, navigation, and desktop/phone layouts.
 - [x] Match the live Novera light theme and faded square grid without changing presentation content.
 - [x] Add restrained motion and tactile interactions; verify normal, phone, and ultrawide screens.
+- [ ] De-clutter all 14 slides, the app shell, report, and walkthrough using the uploaded refactor brief.
+- [ ] Verify all slide layouts, transitions, evidence interactions, and printing on desktop, phone, and ultrawide.
