@@ -37,5 +37,6 @@ use the editor.
 - Keep new suite features in src/features/suite and the index route as its URL coordinator; imported secondary pages remain untouched.
 - Render all deck slides through one 1920×1080 SlideLayout with center-origin scaling so presentation, overview, and fullscreen share geometry.
 - Keep mode and slide in validated URL search for reloadable and shareable presentation state.
+- Derive navigation limits and counters from the central slide registry so deck revisions cannot leave stale slide counts.
 - Compute demonstration hashes in browser effects using Web Crypto and label sample evidence explicitly; never present illustrative digests as production seals.
 - Scope suite surface and motion tokens to the suite stylesheet rules; preserve imported secondary pages and fixed slide geometry during visual refreshes.

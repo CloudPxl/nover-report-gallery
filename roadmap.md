@@ -5,5 +5,6 @@
 - [x] Verify calculations, hashing, navigation, and desktop/phone layouts.
 - [x] Match the live Novera light theme and faded square grid without changing presentation content.
 - [x] Add restrained motion and tactile interactions; verify normal, phone, and ultrawide screens.
-- [ ] De-clutter all 14 slides, the app shell, report, and walkthrough using the uploaded refactor brief.
-- [ ] Verify all slide layouts, transitions, evidence interactions, and printing on desktop, phone, and ultrawide.
+- [x] Replace the interrupted 14-slide cleanup with the newer 11-slide investor brief; simplify the shell and retain report/walkthrough access.
+- [x] Verify all investor slide layouts, evidence interactions, and desktop, phone, and ultrawide navigation.
+- [x] Replace the draft with an 11-slide, moderately dense investor deck using supported evidence and explicit commercial assumptions.

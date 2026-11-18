@@ -1,6 +1,8 @@
 import { describe,it,expect } from 'vitest';
-import {agencyProfit,quorum,sha256,buildChain,scenarios,mediaSource} from './data';
+import {agencyProfit,quorum,sha256,buildChain,scenarios,mediaSource,fixtureEvidence} from './data';
 describe('Novera evidence rules',()=>{
+ it('uses the uploaded fixture counts, not the draft 44-pass claim',()=>{expect(fixtureEvidence.scenarios).toBe(49);expect(fixtureEvidence.passed).toBe(12);expect(fixtureEvidence.failed).toBe(37)});
+ it('retains the reported fixture timing and independent read-back outcomes',()=>{expect(fixtureEvidence.seconds).toBe(281.9);expect(fixtureEvidence.confirmed).toBe(1);expect(fixtureEvidence.contradicted).toBe(1)});
  it('deducts the €299 Agency Pro subscription',()=>expect(agencyProfit(1,500)).toBe(201));
  it('never passes a split quorum with a timeout',()=>expect(quorum(['PASS','FAIL','TIMEOUT'])).toBe('INCONCLUSIVE'));
  it('fails unanimous impersonation judgments',()=>expect(quorum(['FAIL','FAIL','FAIL'])).toBe('FAIL'));
